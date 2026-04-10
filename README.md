@@ -11,7 +11,8 @@
 |---|---|---|---|---|
 | **state-verifier** | 디자인 단계 UI 상태 누락 및 엣지케이스 자동 탐지 | `상태 체크해줘` / `엣지케이스 뽑아줘` | 콘텐츠 | ✅ 운영 중 |
 | **spec-policy-handoff** | Figma 화면 구조 기반 핸드오프 주석 초안 생성 | `주석 써줘` / `spec 달아줘` | 콘텐츠 | ✅ 운영 중 |
-| **design-review** | 휴리스틱 평가 · 페르소나 워크스루 · 근거 기반 피드백 | `#휴리스틱` / `#페르소나` / `#리뷰` | 공통 | ✅ 운영 중 |
+| **design-review** | 디자인 리뷰 워크플로 (페르소나→VOC→리뷰→스펙→크리틱) | `#페르소나` / `#유저보이스` / `#리뷰` / `#스펙` / `#크리틱` | 공통 | ✅ 운영 중 |
+| **user-voice** | 유대시 VOC 조회 및 디자인/기획 근거 활용 | `유저 의견 찾아줘` / `VOC 근거` | 공통 | ✅ 운영 중 |
 
 > 도메인 컬럼은 스킬이 최적화된 도메인을 나타내요. 다른 도메인에서 사용할 때는 해당 도메인 케이스를 SKILL.md에 추가하면 품질이 올라갑니다.
 
@@ -28,6 +29,7 @@
 - state-verifier: ~/claude-skills/skills/state-verifier/SKILL.md
 - spec-policy-handoff: ~/claude-skills/skills/spec-policy-handoff/SKILL.md
 - design-review: ~/claude-skills/skills/design-review/SKILL.md
+- user-voice: ~/claude-skills/skills/user-voice/SKILL.md
 ```
 
 ### Cursor
