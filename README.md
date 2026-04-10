@@ -13,6 +13,10 @@
 | **spec-policy-handoff** | Figma 화면 구조 기반 핸드오프 주석 초안 생성 | `주석 써줘` / `spec 달아줘` | 콘텐츠 | ✅ 운영 중 |
 | **design-review** | 디자인 리뷰 워크플로 (페르소나→VOC→리뷰→스펙→크리틱) | `#페르소나` / `#유저보이스` / `#리뷰` / `#스펙` / `#크리틱` | 공통 | ✅ 운영 중 |
 | **user-voice** | 유대시 VOC 조회 및 디자인/기획 근거 활용 | `유저 의견 찾아줘` / `VOC 근거` | 공통 | ✅ 운영 중 |
+| **funnel-check** | PD가 화면 데이터를 정확하게 측정 — flow(플로우 전환률) / audit(화면 element 사용도) 두 mode | `전환률 알려줘` / `퍼널 보여줘` / `사용도 분석` / `audit` | 공통 | ✅ v1.2 |
+| **log-explore** | 오늘의집 로그 체계 탐색 + page_id 도메인 매핑 가이드 (funnel-check 의존) | `이 화면 로그 뭐 있어` / `page_id 뭐야` / `enum 값 알려줘` | 공통 | ✅ 운영 중 |
+| **log-query** | 로그 명세 기반 athena 쿼리 생성/실행 — 표준 패턴 강제(파티션 필수, user_id>0, platform 필터) (funnel-check 의존) | `athena 쿼리 만들어줘` / `로그 데이터 뽑아줘` | 공통 | ✅ 운영 중 |
+| **log-spec** | 로그센터 명세 조회 — URL/spec_id/page_id/한글 화면명 모두 입력 가능 (funnel-check 의존) | `로그 명세 보여줘` / `spec 찾아줘` / `constraint_dsl 뭐야` | 공통 | ✅ 운영 중 |
 
 > 도메인 컬럼은 스킬이 최적화된 도메인을 나타내요. 다른 도메인에서 사용할 때는 해당 도메인 케이스를 SKILL.md에 추가하면 품질이 올라갑니다.
 
@@ -30,7 +34,13 @@
 - spec-policy-handoff: ~/claude-skills/skills/spec-policy-handoff/SKILL.md
 - design-review: ~/claude-skills/skills/design-review/SKILL.md
 - user-voice: ~/claude-skills/skills/user-voice/SKILL.md
+- funnel-check: ~/claude-skills/skills/funnel-check/SKILL.md
+- log-explore: ~/claude-skills/skills/log-explore/SKILL.md
+- log-query: ~/claude-skills/skills/log-query/SKILL.md
+- log-spec: ~/claude-skills/skills/log-spec/SKILL.md
 ```
+
+> **funnel-check 사용 시:** `log-explore`, `log-query`, `log-spec` 3개를 같이 등록해야 합니다 (의존 인프라). 메인 README 표 하단의 의존 표시 참고.
 
 ### Cursor
 

@@ -61,9 +61,9 @@ Glob으로 다음 위치 중 한 곳에라도 의존 스킬이 있는지 확인:
 - `~/.claude/commands/log-spec.md`
 
 **또는 CLAUDE.md skill path 등록 위치:**
-- `~/AI-Skill/skills/log-explore/SKILL.md`
-- `~/AI-Skill/skills/log-query/SKILL.md`
-- `~/AI-Skill/skills/log-spec/SKILL.md`
+- `~/claude-skills/skills/log-explore/SKILL.md`
+- `~/claude-skills/skills/log-query/SKILL.md`
+- `~/claude-skills/skills/log-spec/SKILL.md`
 - 또는 사용자가 직접 등록한 다른 경로
 
 3개 모두 어느 위치에든 있으면 ✅ 통과. 빠진 게 있으면 안내:
@@ -76,22 +76,22 @@ Glob으로 다음 위치 중 한 곳에라도 의존 스킬이 있는지 확인:
 
 옵션 1 — 자동 발동 (권장, 자연어로 호출 가능):
   1. AI-Skill 레포 clone:
-     git clone https://github.com/Ohouse-product-design/AI-Skill.git ~/AI-Skill
+     git clone https://github.com/Ohouse-product-design/AI-Skill.git ~/claude-skills
   2. ~/.claude/CLAUDE.md 에 skill path 등록 (Skills 섹션에 한 줄씩):
-     - funnel-check: ~/AI-Skill/skills/funnel-check/SKILL.md
-     - log-explore: ~/AI-Skill/skills/log-explore/SKILL.md
-     - log-query: ~/AI-Skill/skills/log-query/SKILL.md
-     - log-spec: ~/AI-Skill/skills/log-spec/SKILL.md
+     - funnel-check: ~/claude-skills/skills/funnel-check/SKILL.md
+     - log-explore: ~/claude-skills/skills/log-explore/SKILL.md
+     - log-query: ~/claude-skills/skills/log-query/SKILL.md
+     - log-spec: ~/claude-skills/skills/log-spec/SKILL.md
   3. Claude Code 재시작
   4. "이 화면 audit 해줘" 같은 자연어로 사용
 
 옵션 2 — 슬래시 커맨드 (수동 호출):
   1. 위 1번 clone
   2. 파일 복사:
-     cp ~/AI-Skill/skills/funnel-check/SKILL.md ~/.claude/commands/funnel-check.md
-     cp ~/AI-Skill/skills/log-explore/SKILL.md ~/.claude/commands/log-explore.md
-     cp ~/AI-Skill/skills/log-query/SKILL.md ~/.claude/commands/log-query.md
-     cp ~/AI-Skill/skills/log-spec/SKILL.md ~/.claude/commands/log-spec.md
+     cp ~/claude-skills/skills/funnel-check/SKILL.md ~/.claude/commands/funnel-check.md
+     cp ~/claude-skills/skills/log-explore/SKILL.md ~/.claude/commands/log-explore.md
+     cp ~/claude-skills/skills/log-query/SKILL.md ~/.claude/commands/log-query.md
+     cp ~/claude-skills/skills/log-spec/SKILL.md ~/.claude/commands/log-spec.md
   3. /funnel-check 으로 호출
 
 자세한 가이드:
