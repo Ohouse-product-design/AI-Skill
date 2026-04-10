@@ -1,61 +1,28 @@
 # AI Skill
 
-오늘의집 PD팀 공용 AI 스킬 모음입니다.
-Claude Code와 Cursor 모두 지원합니다.
+오늘의집 PD팀 공용 Claude 스킬 저장소입니다.
+[PD AI Workflow Map](https://ohouse-product-design.github.io/AI-Workflow/%5BYH%5DLoadmap/ai-workflow-map.html) — **3. Handoff & QA** 그룹 스킬을 포함하며, 팀 전체 워크플로우를 커버하는 방향으로 지속 확장됩니다.
 
-## 폴더 구조
-
-```
-claude-skills/
-├── skills/                     ← 스킬 원본 (Single Source of Truth)
-│   ├── design-review/
-│   │   ├── SKILL.md            ← Claude Code + Cursor 공용 원본
-│   │   ├── cursor.yaml         ← Cursor .mdc 프론트매터
-│   │   └── references/
-│   ├── state-verifier/
-│   │   ├── SKILL.md
-│   │   ├── cursor.yaml
-│   │   └── references/
-│   └── spec-policy-handoff/
-│       ├── SKILL.md
-│       ├── cursor.yaml
-│       └── references/
-├── scripts/
-│   ├── build-cursor.sh         ← SKILL.md → .mdc 자동 변환
-│   └── setup-cursor.sh         ← Cursor 프로젝트 심볼릭 링크
-├── shared/                     ← 팀 공용 설정 템플릿
-│   ├── CLAUDE.md.template
-│   └── hooks/
-└── dist/cursor/                ← 빌드 결과물 (.mdc 파일)
-```
+---
 
 ## 스킬 목록
 
-### design-review
-디자인 기획을 휴리스틱 평가, 페르소나 워크스루, 근거 기반 피드백으로 검증하는 스킬.
+| 스킬명 | 설명 | 트리거 | 도메인 | 상태 |
+|---|---|---|---|---|
+| **state-verifier** | 디자인 단계 UI 상태 누락 및 엣지케이스 자동 탐지 | `상태 체크해줘` / `엣지케이스 뽑아줘` | 콘텐츠 | ✅ 운영 중 |
+| **spec-policy-handoff** | Figma 화면 구조 기반 핸드오프 주석 초안 생성 | `주석 써줘` / `spec 달아줘` | 콘텐츠 | ✅ 운영 중 |
+| **design-review** | 휴리스틱 평가 · 페르소나 워크스루 · 근거 기반 피드백 | `#휴리스틱` / `#페르소나` / `#리뷰` | 공통 | ✅ 운영 중 |
 
-**트리거**: `#휴리스틱` / `#페르소나` / `#근거` / `#리뷰`
+> 도메인 컬럼은 스킬이 최적화된 도메인을 나타내요. 다른 도메인에서 사용할 때는 해당 도메인 케이스를 SKILL.md에 추가하면 품질이 올라갑니다.
 
-### state-verifier
-디자인 단계에서 UI 상태 누락과 엣지케이스를 자동 탐지하는 스킬.
-
-**트리거**: `상태 체크해줘` / `엣지케이스 뽑아줘` / `QA 전 체크`
-
-### spec-policy-handoff
-Figma 화면 구조를 읽고 개발 핸드오프용 주석 초안을 생성하는 스킬.
-
-**트리거**: `주석 써줘` / `핸드오프 주석` / `spec 달아줘`
-
-## 사용 순서
-
-```
-state-verifier → Figma 보완 → spec-policy-handoff
-```
+---
 
 ## 설치
 
 ### Claude Code
-`CLAUDE.md`에 스킬 경로를 추가하세요 (`shared/CLAUDE.md.template` 참고):
+
+`CLAUDE.md`에 스킬 경로를 추가하세요 (`shared/CLAUDE.md.template` 참고).
+
 ```markdown
 ## Skills
 - state-verifier: ~/claude-skills/skills/state-verifier/SKILL.md
@@ -64,22 +31,44 @@ state-verifier → Figma 보완 → spec-policy-handoff
 ```
 
 ### Cursor
-1. .mdc 파일을 빌드합니다:
+
+1. `.mdc` 파일 빌드
+
 ```bash
 ~/claude-skills/scripts/build-cursor.sh
 ```
 
-2. 프로젝트 폴더에 심볼릭 링크를 설정합니다:
+2. 프로젝트에 심볼릭 링크 설정
+
 ```bash
 ~/claude-skills/scripts/setup-cursor.sh /path/to/your/project
 ```
 
-## 스킬 수정 가이드
+---
 
-1. `skills/{스킬명}/SKILL.md`를 수정합니다 (단일 원본)
-2. Claude 전용 내용은 `<!-- claude-only -->` ~ `<!-- /claude-only -->` 마커로 감쌉니다
-3. `scripts/build-cursor.sh`를 실행하면 마커 블록이 제거된 `.mdc` 파일이 `dist/cursor/`에 생성됩니다
+## 스킬 업데이트 받기
+
+```bash
+cd ~/claude-skills && git pull origin main
+```
+
+---
+
+## 새 스킬 추가하는 법
+
+`skills/{스킬명}/` 폴더를 만들고 SKILL.md와 cursor.yaml을 작성한 뒤 PR을 올려주세요.
+기존 스킬 폴더를 참고하면 됩니다.
+
+스킬 수정 후에는 빌드 스크립트를 실행해 Cursor용 `.mdc` 파일을 업데이트하세요.
+
+```bash
+~/claude-skills/scripts/build-cursor.sh
+```
+
+> 특정 도메인(커머스, O2O, 글로벌, 홈) 특화 스킬의 경우, 위 스킬 목록 테이블에 도메인을 명시해 주세요.
+
+---
 
 ## 문의 및 개선 제안
 
-Issues에 남겨주세요.
+사용 중 이슈나 아이디어는 [Issues](https://github.com/Ohouse-product-design/AI-Skill/issues)에 남겨주세요.
