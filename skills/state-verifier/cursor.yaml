@@ -1,0 +1,2 @@
+description: "UI 상태 누락과 엣지케이스를 탐지하는 스킬. \"상태 체크\", \"엣지케이스 뽑아줘\", \"QA 전 체크\" 등의 표현에 반응. Figma URL이나 화면 이미지를 인풋으로 받아 Loading/Empty/Error/Success/Disabled 상태 누락을 점검하고 체크리스트를 생성한다."
+alwaysApply: false
