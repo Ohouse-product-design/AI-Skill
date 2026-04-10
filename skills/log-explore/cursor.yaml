@@ -1,0 +1,2 @@
+description: "오늘의집 로그 체계 탐색 스킬. \"로그 어떻게 봐\", \"이 화면 로그 뭐 있어\", \"page_id 뭐야\", \"enum 값 알려줘\", \"log-explore\" 같은 표현에 반응. 페이지 로그 전체 탐색, enum 탐색, 기능 키워드로 연관 로그 찾기, 로그센터 URL 분석을 처리. 도메인별 page_id 매핑(커머스/콘텐츠/o2o/공통) 가이드를 내장. funnel-check 스킬의 의존 소스."
+alwaysApply: false

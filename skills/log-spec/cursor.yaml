@@ -1,0 +1,2 @@
+description: "오늘의집 로그 명세 조회 스킬. \"이 로그 spec 찾아줘\", \"page spec 알려줘\", \"log-spec\", \"로그 명세 보여줘\", \"constraint_dsl 뭐야\" 같은 표현에 반응. 로그센터 URL, spec_id, page_id, 한글 화면명 모두 입력 가능. constraint_dsl과 json_preview를 자연어로 요약. funnel-check 스킬의 의존 소스."
+alwaysApply: false

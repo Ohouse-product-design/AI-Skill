@@ -1,0 +1,2 @@
+description: "오늘의집 로그 명세 기반 Athena 쿼리 생성/실행 스킬. \"athena 쿼리 만들어줘\", \"이 로그 쿼리 짜줘\", \"log-query\", \"로그 데이터 뽑아줘\" 같은 표현에 반응. log.analyst_log_table 표준 쿼리 패턴(date 파티션 필수, user_id > 0, platform 필터, enum 대문자)을 강제하며 사용자 승인 후 실행. funnel-check 스킬의 의존 소스."
+alwaysApply: false
