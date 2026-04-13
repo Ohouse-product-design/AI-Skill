@@ -171,7 +171,8 @@ mkdir -p ~/data-insight && cd ~/data-insight
 
 ## 버전
 
-- **v1.5** (2026-04-11) — 인터랙션 축소 ~30턴 → 4~5턴. 결정 종류 2단 분리 (데이터 의미 vs 워크플로우 옵션), 디폴트 값 자동 적용 (측정 기간 30일, 컷오프 16, 어제 파티션 등), page_id fuzzy 자동 확장 + 병렬 명세 조회 + description 자동 confirm, 인벤토리/CTR 통합 CTE 1개, user_id 캐싱 (`memory/reference_funnel_check.md`), HTML 외부 CDN 의존 0, Step -1 컨펌 turn 제거, get_page_spec 응답 사이즈 회피
+- **v1.5.1** (2026-04-13) — "제거" 맥락 잔존 표현 중립화. v1.3 리프레이밍(⑯) 이후 남아있던 `low-usage-elements` 섹션, MD §5 "사용도 낮은 element", `cursor.yaml` description의 구버전 문구(`audit`, `안 쓰이는 버튼`, `element를 빼는 결정`)를 "element 클릭률 랭킹 — 하위 구간 참고표" 프레이밍으로 교체. 판단(유지/개선/리디자인/제거)은 사용자 몫임을 반복 명시. `~/.claude/commands/funnel-check.md` 슬래시 커맨드도 이번에 처음으로 zip 배포본 v1.5와 동기화 (이전에는 v1.3 이전 구조가 남아있었음). AI-Workflow 레포 `[YH] Data-insight/funnel-check/` 폴더로 파일 재정리
+- v1.5 (2026-04-11) — 인터랙션 축소 ~30턴 → 4~5턴. 결정 종류 2단 분리 (데이터 의미 vs 워크플로우 옵션), 디폴트 값 자동 적용 (측정 기간 30일, 컷오프 16, 어제 파티션 등), page_id fuzzy 자동 확장 + 병렬 명세 조회 + description 자동 confirm, 인벤토리/CTR 통합 CTE 1개, user_id 캐싱 (`memory/reference_funnel_check.md`), HTML 외부 CDN 의존 0, Step -1 컨펌 turn 제거, get_page_spec 응답 사이즈 회피
 - v1.4 (2026-04-10) — per-page_id HTML 아키텍처, page_id 단위 산출물, flow header inject + click-through navigation
 
 ## 문의

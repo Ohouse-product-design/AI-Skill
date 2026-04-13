@@ -690,8 +690,8 @@ Step 4-A에서 실행한 funnel 쿼리 결과를 `./flows/{플로우명}.md` 의
 
 핵심은 두 source 대조:
 
-- **명세 ∩ 로그**: 디자인도 됐고 사용자도 클릭하는 element — CTR/IR 수치로 사용도 비교
-- **명세 only**: 디자인은 됐는데 측정 기간 동안 클릭 0회 — 왜 안 눌리는지 다음 의사결정의 단서
+- **명세 ∩ 로그**: 디자인도 됐고 실제 로그에도 잡히는 element — CTR/IR 수치로 클릭률 랭킹 산출
+- **명세 only**: 디자인은 됐는데 측정 기간 내 클릭 0회 — 참고용 분리 표
 - **로그 only**: 비공식 element (명세 누락 또는 임시 추가) — 명세 정비 트리거
 
 플랫폼 간 차이가 결정적인 인사이트가 되는 경우가 많아 (예: 마이페이지 진입률 ANDROID 12% vs IOS 26%) **통합(ALL) 지표를 메인으로, ANDROID/IOS를 보조로** 보여준다.
@@ -888,7 +888,7 @@ SELECT object_section_id,
 - 분석 범위: **명세 ∩ 로그 + 로그 only** (명세 only는 별도 표로 분리 — 명세 정비 이슈)
 - 컷오프: **상위 16개** (click_uv 기준)
 - uv 컷: **uv ≥ 1**
-- 명세 only 처리: **별도 표로 분리** (제거 후보 아님, 자동 제외 X)
+- 명세 only 처리: **별도 표로 분리** (자동 분석 대상 아님, 명세 정비 참고용)
 - osid 변경 패턴 자동 감지 시 (예: `cart_btn` → `cart_button` 같은 rename) 더 강하게 분리
 
 **사용자에게는 결과를 한 번에 보여주고 사후 조정 안내만 한 줄 덧붙임**. 별도 컨펌 turn 없음:
@@ -1240,14 +1240,14 @@ per-page HTML 섹션 구조 (위에서 아래 순서로 렌더):
   정렬 기준은 항상 ALL platform — 플랫폼별 토글로 바꿔도 element 순서는 유지 (랭킹 일관성).
 </section>
 
-<section id="low-usage-elements">         ← MD §5
-  사용도 낮은 element 표 (디자인 의사결정 참고용):
-    | title | object_section_id | object_type | 통합 click/PV | ANDROID | IOS | 명세 여부 | 비고 |
+<section id="lower-ranking-elements">     ← MD §5
+  Element 클릭률 랭킹 — 하위 구간 참고표:
+    | title | object_section_id | object_type | 통합 click/PV | ANDROID | IOS | 명세 여부 |
     - 통합 click/PV 컬럼이 메인, 굵은 글자 + 강조색
     - ANDROID / IOS 컬럼은 보조 (회색)
-    - 명세 only는 전부 포함 (측정 기간 클릭 0)
-    - 통합 click_per_pv 하위 정렬
-    - 이 표는 "왜 안 눌리나"를 같이 들여다볼 후보 목록일 뿐, 자동 판정 아님
+    - 명세 only는 별도 섹션으로 분리 (측정 기간 내 로그 없음, 명세 정비 참고)
+    - 통합 click_per_pv 오름차순 정렬 (하위 랭킹 한눈에)
+    - 이 표는 click_per_pv 하위 element를 모아보는 참고 섹션. 판단(유지/개선/리디자인/제거)은 전적으로 사용자 몫.
 </section>
 
 <section id="figma-mapper">               ← 인터랙티브 (5-B-2)
@@ -1433,14 +1433,14 @@ per-page HTML 섹션 구조 (위에서 아래 순서로 렌더):
 | ANDROID  | ...   | ...         | ...               |
 | IOS      | ...   | ...         | ...               |
 
-## 5. 사용도 낮은 element (참고)
+## 5. Element 클릭률 랭킹 — 하위 구간 참고표
 | title | object_section_id | object_type | **통합 click/PV** | ANDROID | IOS | 명세 |
 |-------|-------------------|-------------|-------------------|---------|-----|------|
 | 옛 프로모션 배너 | old_promo_banner | MODULE | **0%** | 0% | 0% | ✓ |
 | 푸터 레거시 링크 | footer_link_legacy | LINK | **0.35%** | 0.3% | 0.4% | ✓ |
 | ... | ... | ... | ... | ... | ... | ... |
 
-(통합 컬럼이 메인 정렬키. 이 표는 자동 판정이 아니라 "왜 안 눌리나" 다음 의사결정의 시작점)
+(통합 컬럼이 메인 정렬키, 오름차순. 이 표는 click_per_pv 하위 element를 모아 보는 참고 섹션이고 판단(유지/개선/리디자인/제거)은 사용자 몫)
 
 ## 6. Figma 매핑
 - Figma URL: (사용자가 HTML에서 입력 후 export한 JSON 경로)

@@ -1,2 +1,2 @@
-description: "오늘의집 PD가 화면 데이터를 정확하게 측정하는 스킬. \"전환률 알려줘\", \"퍼널 보여줘\", \"화면 사용도 분석\", \"안 쓰이는 버튼 찾아줘\", \"audit\", \"funnel-check\" 같은 표현에 반응. flow(플로우 전환률)와 audit(화면 element 사용도) 두 mode를 가지며 한 단계씩 사용자에게 물어가며 정답을 만들고 athena 쿼리는 항상 승인 후 실행. PD가 화면에서 element를 빼는 결정에 데이터 근거를 제공."
+description: "오늘의집 PD가 자기 오너십 화면의 element 전환률과 페이지 간 funnel을 정량 근거 위에서 이해하게 도와주는 스킬. \"전환률 알려줘\", \"퍼널 보여줘\", \"이 플로우 어디서 떨어지나\", \"이 버튼/모듈 얼마나 눌리나\", \"element 클릭률 랭킹\", \"click 비율\", \"funnel-check\" 같은 표현에 반응. 산출물은 page_id 단위 HTML — single(1개)/flow(N개 + 첫 entry page에 funnel header inject)의 두 scope. 한 단계씩 사용자에게 물어가며 정답을 만들고 athena 쿼리는 항상 전문을 보여준 뒤 승인 후 실행. element는 로그센터 명세의 title + object_section_id + object_type 삼중 표기. PD가 더 나은 디자인 의사결정을 하도록 데이터 근거를 제공하는 게 미션."
 alwaysApply: false
