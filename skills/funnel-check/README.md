@@ -171,7 +171,8 @@ mkdir -p ~/data-insight && cd ~/data-insight
 
 ## 버전
 
-- **v1.5.1** (2026-04-13) — "제거" 맥락 잔존 표현 중립화. v1.3 리프레이밍(⑯) 이후 남아있던 `low-usage-elements` 섹션, MD §5 "사용도 낮은 element", `cursor.yaml` description의 구버전 문구(`audit`, `안 쓰이는 버튼`, `element를 빼는 결정`)를 "element 클릭률 랭킹 — 하위 구간 참고표" 프레이밍으로 교체. 판단(유지/개선/리디자인/제거)은 사용자 몫임을 반복 명시. `~/.claude/commands/funnel-check.md` 슬래시 커맨드도 이번에 처음으로 zip 배포본 v1.5와 동기화 (이전에는 v1.3 이전 구조가 남아있었음). AI-Workflow 레포 `[YH] Data-insight/funnel-check/` 폴더로 파일 재정리
+- **v1.5.2** (2026-04-13) — Athena 비용 최적화. 배경: 긴 기간 × 반복 호출 시 요금 폭탄 우려 + 쿼리 작성/확인 느림. (a) per-page 루틴을 **통합 쿼리 1개**로 합체 — `src` CTE 1개 + `ROLLUP(platform)` 기반 element metrics + page health + 플랫폼 rollup 을 한 번의 스캔으로 처리 (기존 4+3 CTE 구조 → scan 실질 1회). (b) 디폴트 측정 기간 **30일 → 14일**. (c) **`object_section_idx < 10`** 스캔 단계 컷오프 — 스크롤 안 한 유저에게 로딩조차 안 된 하단 element를 IR 분모에서 제거, 정합성 + 비용 동시 개선. (d) **`avg_dwell_seconds` 제거** — duration 컬럼 없고 LEAD 기반 계산이 전체 유저 이벤트 스캔 필요, 비용 대비 이득 작음. (e) **`session_id` 축 + `click_per_session` 신규 지표** — 같은 스캔에 얹혀서 추가 비용 거의 없음. (f) 원칙 3 "쿼리는 통합 1개가 원칙" 명문화, 공통 주의사항에 "비용 원칙" 추가
+- v1.5.1 (2026-04-13) — "제거" 맥락 잔존 표현 중립화. v1.3 리프레이밍(⑯) 이후 남아있던 `low-usage-elements` 섹션, MD §5 "사용도 낮은 element", `cursor.yaml` description의 구버전 문구(`audit`, `안 쓰이는 버튼`, `element를 빼는 결정`)를 "element 클릭률 랭킹 — 하위 구간 참고표" 프레이밍으로 교체. 판단(유지/개선/리디자인/제거)은 사용자 몫임을 반복 명시. `~/.claude/commands/funnel-check.md` 슬래시 커맨드도 이번에 처음으로 zip 배포본 v1.5와 동기화 (이전에는 v1.3 이전 구조가 남아있었음). AI-Workflow 레포 `[YH] Data-insight/funnel-check/` 폴더로 파일 재정리
 - v1.5 (2026-04-11) — 인터랙션 축소 ~30턴 → 4~5턴. 결정 종류 2단 분리 (데이터 의미 vs 워크플로우 옵션), 디폴트 값 자동 적용 (측정 기간 30일, 컷오프 16, 어제 파티션 등), page_id fuzzy 자동 확장 + 병렬 명세 조회 + description 자동 confirm, 인벤토리/CTR 통합 CTE 1개, user_id 캐싱 (`memory/reference_funnel_check.md`), HTML 외부 CDN 의존 0, Step -1 컨펌 turn 제거, get_page_spec 응답 사이즈 회피
 - v1.4 (2026-04-10) — per-page_id HTML 아키텍처, page_id 단위 산출물, flow header inject + click-through navigation
 
