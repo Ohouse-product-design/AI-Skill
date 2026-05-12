@@ -1,17 +1,17 @@
 ---
-name: jira-design-bug
+name: jira-qa-bug
 description: >
-  오늘의집 PD가 Jira에 디자인/스펙 버그 티켓을 발행하는 팀 공용 스킬.
-  "지라 디자인 버그 티켓", "QA 버그 등록", "디자인 리포팅 티켓",
-  "버그 티켓 만들어", "리포팅 티켓 발행" 같은 표현이 나오면 반드시 이 스킬을 사용할 것.
+  오늘의집 PD가 QA/검수 단계에서 발견한 버그(디자인·정책·스펙·콘텐츠)를 Jira 티켓으로 발행하는 팀 공용 스킬.
+  "QA 버그 등록", "버그 티켓 만들어", "디자인 리포팅 티켓", "지라 버그 티켓",
+  "리포팅 티켓 발행" 같은 표현이 나오면 반드시 이 스킬을 사용할 것.
   COMMWEB·OHSIOS·OHSAND·CONTWEB 영역별 기본 프로젝트 매핑,
   라벨/Priority 디폴트, 본문 구조, 담당자 lookup, 발행 전 컨펌 워크플로우가 박제되어 있다.
   최초 사용 시 개인 셋업(주 프로젝트·도메인·담당자)을 자동 추론 또는 wizard로 진행한다.
 ---
 
-# Jira Design Bug Report
+# Jira QA Bug Report
 
-오늘의집 PD가 디자인/스펙 검수 단계에서 발견한 버그를 Jira 티켓으로 등록할 때 사용하는 팀 공용 스킬.
+오늘의집 PD가 QA/검수 단계에서 발견한 버그(디자인·정책·스펙·콘텐츠)를 Jira 티켓으로 등록할 때 사용하는 팀 공용 스킬.
 
 ---
 
@@ -19,7 +19,7 @@ description: >
 
 - `cloudId`: `0d334135-ec08-4c00-8411-7a081dce39ca` (ohouse.atlassian.net)
 - 보고자: 현재 로그인된 Atlassian 계정 (자동)
-- 개인 설정 저장 위치: `~/.claude/skill-prefs/jira-design-bug.md`
+- 개인 설정 저장 위치: `~/.claude/skill-prefs/jira-qa-bug.md`
 
 ---
 
@@ -30,7 +30,7 @@ description: >
 ### 0-1. 기존 설정 확인
 
 ```
-Read ~/.claude/skill-prefs/jira-design-bug.md
+Read ~/.claude/skill-prefs/jira-qa-bug.md
 ```
 
 파일이 있고 유효한 값이 있으면 → 그대로 적용하고 **Step 1로 진행**.
@@ -72,7 +72,7 @@ reporter = currentUser() ORDER BY created DESC
 
 ### 0-4. 설정 저장
 
-`~/.claude/skill-prefs/jira-design-bug.md` 에 다음 형식으로 저장:
+`~/.claude/skill-prefs/jira-qa-bug.md` 에 다음 형식으로 저장:
 
 ```markdown
 ---
@@ -243,4 +243,4 @@ updated: YYYY-MM-DD
 - Cross-project 에픽 연결은 본문에 텍스트 링크로만 박고 정식 이슈 링크는 필요 시에만 시도
 - 첨부 이미지는 API 업로드 시도 안 함 (사용자 직접 업로드가 빠르고 안정적)
 - 같은 이슈가 여러 RC 회차에서 발견되면 라벨에 회차 누적 (예: `RC1`, `RC2`, `RC5`)
-- 개인 설정 파일(`~/.claude/skill-prefs/jira-design-bug.md`)은 git에 올리지 않음
+- 개인 설정 파일(`~/.claude/skill-prefs/jira-qa-bug.md`)은 git에 올리지 않음
