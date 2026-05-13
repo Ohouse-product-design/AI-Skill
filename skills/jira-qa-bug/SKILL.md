@@ -150,10 +150,11 @@ updated: YYYY-MM-DD
 `~/.claude/skill-prefs/jira-qa-bug.md`의 워크스트림 표에서 다음을 읽어와 발행 시 자동 적용:
 | 필드 | API 경로 | 참고 |
 |------|---------|------|
-| Watcher 멤버 | `customfield_10036` (관련자 배열) | 발행 시 `additional_fields`에 포함 |
-| Verifier | 별도 customfield (확인 필요) | 디폴트 + 그 주 가장 많이 태그된 분으로 교체 가능 |
+| Watcher 멤버 | `customfield_10036` | 배열, `{accountId}` 객체 |
+| Verifier | `customfield_10045` | 단일 사용자 객체 `{accountId}` — 디폴트 + 그 주 가장 많이 태그된 분으로 교체 가능 |
 | Fix Version | `fixVersions: [{id: "..."}]` | 현재 RC 회차 릴리스 버전 |
 | Affects Version | `versions: [{id: "..."}]` | 동일 |
+| Release Date | `customfield_10312` | `YYYY-MM-DD` |
 
 워크스트림이 개인 설정에 없으면 사용자에게 확인 후 패턴 캡처.
 
@@ -181,9 +182,16 @@ updated: YYYY-MM-DD
 예시:
 - `[글린다 온보딩] B안 > 패키지할인 카드 이미지에 패딩 임베드`
 - `[댓글 UI 개선] Three dots 버튼 컬러 디자인과 동일하게 적용`
-- `[투탭][콘텐츠 개편] 필터 가이드 툴팁 디자인 피그마와 상이`
+- `[Context Builder] 검색 결과 리스트 좌우 패딩 디자인과 상이`
 
 자주 쓰는 표현: "디자인과 상이", "수정 필요", "조정 필요", "제거", "노출"
+
+### 제목 prefix는 반드시 같은 워크스트림 다른 티켓에서 확인
+
+사용자 표현(예: "콘탭")이 곧 티켓 prefix는 아닐 수 있음. 같은 워크스트림에 이미 발행된 다른 티켓들의 실제 제목을 확인해서 표준 prefix를 사용할 것.
+- 예: 사용자가 "콘탭" 워크스트림이라고 해도 표준 티켓 prefix는 `[Context Builder]` (풀 네임)
+- 확인 방법: `searchJiraIssuesUsingJql`로 같은 라벨/에픽의 최근 티켓 제목 조회 후 prefix 패턴 추출
+- 개인 설정의 워크스트림 표에서 "제목 prefix" 행이 있으면 그것을 우선 사용
 
 ---
 
