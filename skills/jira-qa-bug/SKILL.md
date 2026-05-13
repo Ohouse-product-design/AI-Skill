@@ -145,6 +145,18 @@ updated: YYYY-MM-DD
 - 콘텐츠/커뮤니티 → `community` (소문자) 또는 `Content`
 - 특정 프로젝트 라벨이 있으면 함께 (예: `댓글경험개선`, `C&C_Renewal`, `CDP인기글`)
 
+### 워크스트림별 세부 필드 (개인 설정에서 로드)
+
+`~/.claude/skill-prefs/jira-qa-bug.md`의 워크스트림 표에서 다음을 읽어와 발행 시 자동 적용:
+| 필드 | API 경로 | 참고 |
+|------|---------|------|
+| Watcher 멤버 | `customfield_10036` (관련자 배열) | 발행 시 `additional_fields`에 포함 |
+| Verifier | 별도 customfield (확인 필요) | 디폴트 + 그 주 가장 많이 태그된 분으로 교체 가능 |
+| Fix Version | `fixVersions: [{id: "..."}]` | 현재 RC 회차 릴리스 버전 |
+| Affects Version | `versions: [{id: "..."}]` | 동일 |
+
+워크스트림이 개인 설정에 없으면 사용자에게 확인 후 패턴 캡처.
+
 ---
 
 ## Step 4 — 담당자 lookup
@@ -213,17 +225,19 @@ updated: YYYY-MM-DD
 ## Step 7 — 발행 워크플로우
 
 1. 정보 수집 (Step 1~4)
-2. **초안을 표 + 코드블록으로 공유**: 필드값 + Description 미리보기
-3. 사용자에게 "이대로 발행할까요?" 컨펌 요청 — **컨펌 없이 발행 절대 금지**
-4. OK 받으면 `createJiraIssue` 호출
+2. 개인 설정에서 해당 워크스트림 세부 필드 로드 (Watcher 멤버, Verifier, Fix/Affects Version)
+3. **초안을 표 + 코드블록으로 공유**: 필드값 + Description 미리보기 (세부 필드도 포함)
+4. 사용자에게 "이대로 발행할까요?" 컨펌 요청 — **컨펌 없이 발행 절대 금지**
+5. OK 받으면 `createJiraIssue` 호출:
    - **에픽이 있으면 반드시 `parent: { key: "EPIC-KEY" }` 파라미터 함께 전달** (cross-project도 가능 — 확인됨)
-   - 예: COMMWEB 버그 + COMMPO 에픽도 정상 연결됨
-5. 발행 후 확인:
-   - parent 필드가 비어있으면 `editJiraIssue`로 폴백 시도 (`fields: { parent: { key: "..." } }`)
-6. 발행 후 안내:
+   - `additional_fields`에 워크스트림 세부 필드 포함: `fixVersions`, `versions`, `customfield_10036` (Watcher 관련자 배열), Verifier customfield (확인되면)
+6. 발행 후 확인:
+   - parent 필드가 비어있으면 `editJiraIssue`로 폴백 시도
+   - Verifier customfield ID가 확인 안 됐으면, 발행 후 사용자에게 직접 채워 달라고 안내
+7. 발행 후 안내:
    - 티켓 링크 (markdown 링크: `[KEY-XXX](https://ohouse.atlassian.net/browse/KEY-XXX)`)
    - 첨부 이미지는 사용자가 Jira UI에 직접 업로드
-   - 필요 시 추가 필드 (Verifier, Story Points, 담당 PO, 기한, Watcher) 입력 의사 확인
+   - 누락된 필드 (Story Points, 담당 PO, 기한, accepted at) 입력 의사 확인
 
 ---
 
