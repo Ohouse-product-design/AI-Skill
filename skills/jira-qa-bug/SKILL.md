@@ -216,7 +216,11 @@ updated: YYYY-MM-DD
 2. **초안을 표 + 코드블록으로 공유**: 필드값 + Description 미리보기
 3. 사용자에게 "이대로 발행할까요?" 컨펌 요청 — **컨펌 없이 발행 절대 금지**
 4. OK 받으면 `createJiraIssue` 호출
-5. 발행 후 안내:
+   - **에픽이 있으면 반드시 `parent: { key: "EPIC-KEY" }` 파라미터 함께 전달** (cross-project도 가능 — 확인됨)
+   - 예: COMMWEB 버그 + COMMPO 에픽도 정상 연결됨
+5. 발행 후 확인:
+   - parent 필드가 비어있으면 `editJiraIssue`로 폴백 시도 (`fields: { parent: { key: "..." } }`)
+6. 발행 후 안내:
    - 티켓 링크 (markdown 링크: `[KEY-XXX](https://ohouse.atlassian.net/browse/KEY-XXX)`)
    - 첨부 이미지는 사용자가 Jira UI에 직접 업로드
    - 필요 시 추가 필드 (Verifier, Story Points, 담당 PO, 기한, Watcher) 입력 의사 확인
@@ -240,7 +244,7 @@ updated: YYYY-MM-DD
 
 - `issueTypeName`은 반드시 **영문 `Bug`**, 한국어 "버그" 거부됨
 - `additional_fields`에 `{"priority": {"name": "P2"}, "labels": [...]}` 형식으로 전달
-- Cross-project 에픽 연결은 본문에 텍스트 링크로만 박고 정식 이슈 링크는 필요 시에만 시도
-- 첨부 이미지는 API 업로드 시도 안 함 (사용자 직접 업로드가 빠르고 안정적)
+- **에픽 연결은 `parent: { key: "EPIC-KEY" }`로 자동 처리** — cross-project도 정상 동작 확인됨 (OHSIOS↔CONTPL, COMMWEB↔COMMPO 검증)
+- 첨부 이미지는 API 업로드 시도 안 함 (Claude Code 환경에서 멀티모달 이미지의 파일 경로 접근 불가, 사용자 직접 업로드가 빠르고 안정적)
 - 같은 이슈가 여러 RC 회차에서 발견되면 라벨에 회차 누적 (예: `RC1`, `RC2`, `RC5`)
 - 개인 설정 파일(`~/.claude/skill-prefs/jira-qa-bug.md`)은 git에 올리지 않음
