@@ -239,19 +239,41 @@ updated: YYYY-MM-DD
 
 ---
 
+## Step 6.5 — 중복 티켓 확인 (필수)
+
+발행 초안 공유 직후, 같은 워크스트림에 비슷한 active 티켓이 있는지 자동 점검.
+
+### 검색 방식
+- 제목에서 핵심 명사 2~3개 추출 (예: `[Context Builder] 피드 중간 Search Pivot 칩 박스 높이...` → `Search Pivot`, `박스 높이`)
+- JQL 예시:
+  ```jql
+  project = OHSIOS 
+    AND labels = "ContextBuilde" 
+    AND status not in (Verified, Duplicate, "Won't Fix", Closed, Fixed) 
+    AND (summary ~ "Search Pivot" OR summary ~ "박스 높이")
+  ORDER BY created DESC
+  ```
+
+### 결과 처리
+- **0건** → Step 7 발행 컨펌 단계로 진행
+- **1건 이상** → 사용자에게 매칭 티켓 표로 보여주기:
+  - 티켓 키 (markdown 링크) / 제목 / 상태 / 담당자 / 생성일
+  - "비슷한 티켓이 있어요. 어떻게 할까요?"
+  - 옵션: ① 그대로 발행 (다른 이슈) / ② 발행 취소 / ③ 기존 티켓에 코멘트로 추가
+
 ## Step 7 — 발행 워크플로우
 
 1. 정보 수집 (Step 1~4)
 2. 개인 설정에서 해당 워크스트림 세부 필드 로드 (Watcher 멤버, Verifier, Fix/Affects Version)
 3. **초안을 표 + 코드블록으로 공유**: 필드값 + Description 미리보기 (세부 필드도 포함)
-4. 사용자에게 "이대로 발행할까요?" 컨펌 요청 — **컨펌 없이 발행 절대 금지**
-5. OK 받으면 `createJiraIssue` 호출:
+4. **Step 6.5 중복 확인 자동 실행** — 매칭 있으면 사용자 판단 받기
+5. 사용자에게 "이대로 발행할까요?" 컨펌 요청 — **컨펌 없이 발행 절대 금지**
+6. OK 받으면 `createJiraIssue` 호출:
    - **에픽이 있으면 반드시 `parent: { key: "EPIC-KEY" }` 파라미터 함께 전달** (cross-project도 가능 — 확인됨)
-   - `additional_fields`에 워크스트림 세부 필드 포함: `fixVersions`, `versions`, `customfield_10036` (Watcher 관련자 배열), Verifier customfield (확인되면)
-6. 발행 후 확인:
+   - `additional_fields`에 워크스트림 세부 필드 포함: `fixVersions`, `versions`, `customfield_10036` (Watcher 관련자 배열), `customfield_10045` (Verifier), `customfield_10312` (Release Date)
+7. 발행 후 확인:
    - parent 필드가 비어있으면 `editJiraIssue`로 폴백 시도
-   - Verifier customfield ID가 확인 안 됐으면, 발행 후 사용자에게 직접 채워 달라고 안내
-7. 발행 후 안내:
+8. 발행 후 안내:
    - 티켓 링크 (markdown 링크: `[KEY-XXX](https://ohouse.atlassian.net/browse/KEY-XXX)`)
    - 첨부 이미지는 사용자가 Jira UI에 직접 업로드
    - 누락된 필드 (Story Points, 담당 PO, 기한, accepted at) 입력 의사 확인
