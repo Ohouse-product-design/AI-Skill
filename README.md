@@ -18,6 +18,7 @@
 | **log-query** | 로그 명세 기반 athena 쿼리 생성/실행 — 표준 패턴 강제(파티션 필수, user_id>0, platform 필터) (funnel-check 의존) | `athena 쿼리 만들어줘` / `로그 데이터 뽑아줘` | 공통 | ✅ 운영 중 |
 | **log-spec** | 로그센터 명세 조회 — URL/spec_id/page_id/한글 화면명 모두 입력 가능 (funnel-check 의존) | `로그 명세 보여줘` / `spec 찾아줘` / `constraint_dsl 뭐야` | 공통 | ✅ 운영 중 |
 | **jira-qa-bug** | QA/검수 단계 버그(디자인·정책·스펙·콘텐츠)를 Jira 티켓으로 자동 발행 — 프로젝트 매핑·라벨·본문 구조·담당자 lookup·발행 전 컨펌까지 박제. 최초 사용 시 본인 패턴 자동 분석해 디폴트 셋업 | `버그 티켓 만들어` / `QA 버그 등록` / `디자인 리포팅 티켓` | 공통 | ✅ 운영 중 |
+| **admin-hub** | 오늘의집 사내 어드민 디자인 자동화 통합 진입점 — 도메인(커머스/광고/물류) 선택 시 sub-skill 위임 + 호스팅 자동화(Vercel/사내 정적 서버) | `/admin-hub` / `어드민 디자인` / `어드민 페이지 만들어줘` | 공통 (어드민) | ✅ 운영 중 |
 
 > 도메인 컬럼은 스킬이 최적화된 도메인을 나타내요. 다른 도메인에서 사용할 때는 해당 도메인 케이스를 SKILL.md에 추가하면 품질이 올라갑니다.
 
@@ -40,6 +41,7 @@
 - log-query: ~/claude-skills/skills/log-query/SKILL.md
 - log-spec: ~/claude-skills/skills/log-spec/SKILL.md
 - jira-qa-bug: ~/claude-skills/skills/jira-qa-bug/SKILL.md
+- admin-hub: ~/claude-skills/skills/admin-hub/SKILL.md
 ```
 
 > **funnel-check 사용 시:** `log-explore`, `log-query`, `log-spec` 3개를 같이 등록해야 합니다 (의존 인프라). 메인 README 표 하단의 의존 표시 참고.
