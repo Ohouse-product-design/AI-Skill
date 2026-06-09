@@ -1,0 +1,83 @@
+---
+description: "PRD에서 프로토타입까지 4단계 워크플로. PRD 탭 읽기 → 스펙독 템플릿 정규화 → 사용자 확인 → 프로토타입 구현/보완. 새 어드민 페이지를 만들거나 기존 페이지를 보완할 때 사용."
+alwaysApply: false
+---
+
+
+# PRD → Prototype 워크플로
+
+PRD(Google Doc)를 읽어 디자인 가이드에 맞는 어드민 프로토타입(Next.js 페이지)을 생성합니다.
+
+## 호출
+
+```
+/prd-to-prototype [탭명]
+```
+
+## 사전 준비 (Setup)
+
+이 스킬은 **admin-prototype 스캐폴드 레포 안에서 동작**합니다. STEP 4(구현)는 그 레포의 `src/app/**`에 페이지를 써넣기 때문에, 스캐폴드를 로컬에 clone한 뒤 그 디렉토리를 작업 폴더로 두고 실행해야 합니다.
+
+| 항목 | 위치 |
+|---|---|
+| 스캐폴드 레포 | `Ohouse-product-design/Lana` (Next.js + 디자인 가이드 + TEMPLATE) |
+| 디자인 가이드 | 스캐폴드의 `CLAUDE.md`(진입점) + `.claude/designguide/` 4개 |
+| 스펙독 템플릿 | 스캐폴드의 `spec-docs/TEMPLATE.md` |
+| 스펙독 저장 위치 | 스캐폴드의 `spec-docs/` |
+
+> 📎 가이드/TEMPLATE의 **읽기용 사본**이 이 스킬 폴더 `references/`에 번들되어 있습니다. 스캐폴드 없이 가이드만 훑어볼 때 참고하세요. 실제 구현은 스캐폴드 레포 안에서 진행합니다.
+
+- PRD Google Doc: 사용자가 `/prd-to-prototype` 호출 시 대상 Doc/탭을 전달합니다.
+
+
+## STEP 2 — 스펙독 템플릿 정규화
+
+1. `spec-docs/TEMPLATE.md`를 읽고 양식을 확인한다
+2. 각 페이지별로 템플릿에 맞춰 정규화한다:
+   - 페이지 메타 (유형, 경로, 브레드크럼, 사이드바, 헤더)
+   - 검색 필터 / 테이블 컬럼 / 정렬 / 폼 필드 / 모달 / 프레임
+   - 불명확한 항목
+
+### 정규화 원칙
+- PRD 원문만 옮긴다. 해석·추론·판단을 더하지 않는다
+- 컴포넌트/셀 유형은 TEMPLATE.md의 허용값만 사용한다
+- 허용값에 없으면 불명확한 항목으로 분류한다
+- 필드명은 PRD 원문 그대로 사용한다 (임의 변경 금지)
+- 같은 필드가 여러 페이지에 걸쳐 나올 때, 명시된 쪽의 스펙을 따른다
+
+### 교차 검증 (정규화 완료 후, 사용자 확인 전에 수행)
+1. 정규화된 스펙독의 필드 목록을 PRD 원문과 대조하여 빠진 필드가 없는지 확인
+2. 같은 도메인의 등록/상세/수정 페이지가 있으면 Lv1/Lv2 섹션 구조와 필드 순서를 통일
+
+→ 스펙독 파일을 스캐폴드의 `spec-docs/`에 저장
+
+
+## STEP 4 — 프로토타입 구현/보완
+
+### STEP 4-0 — 가이드 Read 의무화 (코드 작성 전 최우선)
+
+> ⚠️ **CLAUDE.md만 항상 로드되고 나머지 가이드는 모두 lazy load다.**
+> 프로토타입 구현은 `src/app/**` 수정에 해당하므로, CLAUDE.md의 "자동 Read 규칙"에 따라 **4개 파일 전부 Read 필수**.
+>
+> **메모리 기반 구현(이전 세션 기억)은 가이드 드리프트를 만든다.**
+> 매 구현 전 반드시 아래 네 파일을 Read 도구로 직접 읽는다. "기억하고 있어서 괜찮다"는 생략 금지.
+
+**의무 Read 목록 (코드 작성 전, 순서대로 실행 — 스캐폴드 레포 기준 경로):**
+
+1. `Read(.claude/designguide/00-principle.md)` — 구현 필수 규칙 (0-1~0-8)
+2. `Read(.claude/designguide/10-design-tokens.md)` — 환경/컬러/타이포/간격/아이콘/이미지
+3. `Read(.claude/designguide/20-components.md)` — Button/Input/Table/Modal 등 컴포넌트 전반
+4. `Read(.claude/designguide/30-design-patterns.md)` — 레이아웃, List Page, Form Page, Collapsible Section
+
+> 스캐폴드 없이 가이드를 확인해야 하면 이 스킬 폴더의 `references/designguide/` 사본을 Read 한다.
+
+**Read 후 자체 체크:**
+- [ ] 이번 페이지에 쓰이는 모든 컴포넌트 스펙이 현 파일 내용과 일치하는지 확인
+- [ ] Table Type(1~5), Modal Type(A/B), Button variant 등 선택은 가이드 용도 컬럼 기준
+- [ ] 0-4-3 금지 패턴(`alert()`, `console.log()` 대체) 포함 모든 ❌ 금지 규칙 점검
+
+**❌ 금지 패턴:**
+- ❌ "이전 세션에 봤으니 기억함"으로 Read 생략
+- ❌ 스펙독·PRD만 보고 가이드 미확인 상태에서 코드 작성 시작
+- ❌ 구현 중 규칙이 애매할 때 추측 — Read로 다시 확인
+
