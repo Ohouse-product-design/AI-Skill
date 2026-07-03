@@ -20,7 +20,7 @@
 | **jira-qa-bug** | QA/검수 단계 버그(디자인·정책·스펙·콘텐츠)를 Jira 티켓으로 자동 발행 — 프로젝트 매핑·라벨·본문 구조·담당자 lookup·발행 전 컨펌까지 박제. 최초 사용 시 본인 패턴 자동 분석해 디폴트 셋업 | `버그 티켓 만들어` / `QA 버그 등록` / `디자인 리포팅 티켓` | Deeer | ✅ 운영 중 |
 | **admin-hub** | 오늘의집 사내 어드민 디자인 자동화 통합 진입점 — 도메인(커머스/광고/물류) 선택 시 sub-skill 위임 + 호스팅 자동화(Vercel/사내 정적 서버) | `/admin-hub` / `어드민 디자인` / `어드민 페이지 만들어줘` | Lana | ✅ 운영 중 |
 | **prd-to-prototype** | PRD→스펙독→프로토타입 4단계 워크플로 — PRD 탭 읽기→스펙독 정규화→사용자 확인→Next.js 페이지 구현. admin-prototype 스캐폴드 레포 내에서 동작 | `/prd-to-prototype` / `프로토타입 만들어줘` / `이 PRD로 페이지` | Lana | ✅ 운영 중 |
-| **cd** | 컴포넌트 description(명세서) 자동 작성 — Figma 노드→5섹션(Theme·Context·Anatomy·Guidelines·Behavior). ODS 자동 참조, 피그마 직접 반영(텍스트 교체·항목 추가) | `/cd` / `컴포넌트 설명 써줘` / `description 작성` | Gina | ✅ 운영 중 |
+| **component-description** | 컴포넌트 description(명세서) 자동 작성 — Figma 노드→5섹션(Theme·Context·Anatomy·Guidelines·Behavior). ODS 자동 참조, 피그마 직접 반영(텍스트 교체·항목 추가) | `/cd` / `컴포넌트 설명 써줘` / `description 작성` | Gina | ✅ 운영 중 |
 
 ---
 
@@ -42,7 +42,7 @@
 - log-spec: ~/claude-skills/skills/log-spec/SKILL.md
 - jira-qa-bug: ~/claude-skills/skills/jira-qa-bug/SKILL.md
 - admin-hub: ~/claude-skills/skills/admin-hub/SKILL.md
-- cd: ~/claude-skills/skills/cd/SKILL.md
+- component-description: ~/claude-skills/skills/component-description/SKILL.md
 ```
 
 > **funnel-check 사용 시:** `log-explore`, `log-query`, `log-spec` 3개를 같이 등록해야 합니다 (의존 인프라). 메인 README 표 하단의 의존 표시 참고.
