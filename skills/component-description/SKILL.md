@@ -113,7 +113,7 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 ### 🦴 Anatomy
 - 컴포넌트를 구성하는 요소를 번호로 분해.
 - 각 요소: 무엇을 감싸는/담는 요소인지 + 역할 + 상태(Selected/Unselected 등).
-- 구성 요소가 **실제로 다른 컴포넌트를 참조/사용**하면(ODS든 트랙이든) **동일한 형식**으로 명시한다 — 해당 요소 설명 끝에 `참조: <컴포넌트명>`을 붙인다.
+- 구성 요소가 **실제로 다른 컴포넌트를 참조/사용**하면(ODS든 트랙이든) 명시한다 — 요소 설명 **다음 줄에 별도 불릿(•)** 으로 `참조: <컴포넌트명>`을 넣는다. **앞 설명과 같은 줄에 두지 않는다(엔터 처리).** 서식은 Do/Don't 불릿과 동일(UNORDERED 리스트, indent 1).
   - **ODS면** `참조: ODS <이름>` (예: `참조: ODS IconButton`)
   - **트랙이면** `참조: <트랙 컴포넌트명>` (예: `참조: Circle Badge`)
 - **엄격 기준**: `get_metadata`/`get_design_context`에서 **실제 인스턴스/사용**이 확인될 때만 적는다. 단순히 "닮았다"(커스텀 내부, medium/low 매핑)는 적지 않는다.
@@ -187,6 +187,7 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 
 ### 참조 컴포넌트 링크 (이름 무관, node id 기반)
 Anatomy의 `참조: <컴포넌트명>`을 피그마에 쓸 때는 **텍스트가 아니라 참조 컴포넌트 노드로 가는 하이퍼링크**로 만든다. 이름이 아니라 node id로 걸어 **동명 컴포넌트가 있어도 안 깨진다.**
+0. **새 줄 불릿으로 넣는다**: 본문 = `설명…\n참조: <이름>`, 그리고 `참조: <이름>` 줄에 `setRangeListOptions(UNORDERED)` + `setRangeIndentation(1)` 적용(Do/Don't 불릿과 동일). 앞 설명과 같은 줄에 두지 않는다.
 1. 작업 순서 5에서 캡처한 참조 대상의 `mainComponent.id`를 사용한다.
 2. 텍스트 노드에서 `참조: <이름>` 중 **`<이름>` 구간**의 start/end를 구해, 폰트 로드 후 `textNode.setRangeHyperlink(start, end, { type: 'NODE', value: '<mainComponentId>' })`를 적용한다.
 3. 링크는 컴포넌트 **정의(mainComponent)** 를 가리킨다. (인스턴스가 아님)
