@@ -170,14 +170,17 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 피그마에 반영할 때, **컴포넌트와 그 description을 하나의 Section으로 묶는다.**
 1. `figma.createSection()`으로 섹션 생성 → 이름 = **컴포넌트명**(이모지 포함, 예: `🚀 Add Button`).
 2. **원본 컴포넌트를 섹션으로 이동**한다(`section.appendChild(componentNode)`). 사용자가 준 그 컴포넌트 노드를 옮긴다 — 인스턴스가 아니라 **원본 이동**(기존 인스턴스는 안 깨진다). component set(변형 다수)이면 set 전체를 옮긴다.
-3. description 프레임도 섹션에 넣고 **컴포넌트=왼쪽 / description=오른쪽, 상단 정렬**로 배치한다.
-   - **컴포넌트 ↔ description 간격 = 40**
-   - 두 요소(콘텐츠) 기준 **상하좌우 패딩 = 100** → 컴포넌트·description을 `(section 좌상단 + 100, +100)`에 두고, description은 `컴포넌트 오른쪽 + 40`.
-   - 섹션 크기는 `resizeWithoutConstraints`로 **콘텐츠 + 패딩 100**에 맞춘다. (children를 옮기면 섹션이 재배치될 수 있으니, 위치는 마지막에 정리)
+3. description 프레임도 섹션에 넣고 **컴포넌트=왼쪽 / description=오른쪽, 둘 다 상단 정렬**로 배치한다.
+   - ⚠️ **섹션 자식 좌표는 프레임처럼 "섹션 기준 상대좌표"다** (절대좌표 아님). `s.x + 100` 처럼 절대값으로 넣지 말 것 — **첫 섹션(x=0)만 맞고 나머지는 콘텐츠가 밖으로 밀려난다.** 반드시 상대값으로:
+     - 컴포넌트: `comp.x = 100; comp.y = 100`
+     - description: `desc.x = 100 + comp.width + 40; desc.y = 100`  (간격 40, 상단 정렬)
+   - **상하좌우 패딩 = 100**. 섹션 크기: `resizeWithoutConstraints(100 + compW + 40 + descW + 100, 100 + max(compH, descH) + 100)`.
+   - 순서: `s.x/s.y`(섹션 절대위치) + resize 먼저 → 그다음 자식 상대좌표 배치.
+   - **검증은 `absoluteBoundingBox`로** 한다 (자식/섹션 각각). 자식의 `.x`(상대)와 헷갈리지 말 것 — 패딩이 100/100/100/100 나오는지 확인.
 4. 섹션 스타일:
    - **stroke 제거**: `section.strokes = []`
    - **배경 `#333333`**: `section.fills = [{ type:'SOLID', color:{ r:0.2, g:0.2, b:0.2 } }]`
-5. 섹션은 배치 위치(Component Library 페이지)에 둔다.
+5. 섹션은 배치 위치(Component Library 페이지)에 둔다. 여러 섹션은 상단 y 통일 + 가로로 나열(섹션 간 간격 200 권장).
 - 참고 구조: `Section '🚀 Add Button' { [원본 컴포넌트], [Description 프레임] }` (기준 예시 node `1852:9033`).
 
 ### 컴포넌트 참조 헤더 (맨 위 — 컴포넌트↔description 앵커)
