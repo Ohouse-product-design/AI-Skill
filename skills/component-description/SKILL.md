@@ -166,6 +166,14 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 - 템플릿(예: 기존 Description 프레임)이 다른 페이지에 있으면 clone 후 대상 페이지로 옮긴다.
 - 이 프로젝트(gina, fileKey `wTKVQLp8fZ8Or8378mVcBJ`) 기본값: **"Component Library" 페이지**(canvas `1810:9134`), 템플릿 `1801:8975`. (다른 사용자/파일은 각자 지정)
 
+### 컴포넌트 + description 섹션 묶기 (기본)
+피그마에 반영할 때, **컴포넌트와 그 description을 하나의 Section으로 묶는다.**
+1. `figma.createSection()`으로 섹션 생성 → 이름 = **컴포넌트명**(이모지 포함, 예: `🚀 Add Button`).
+2. **원본 컴포넌트를 섹션으로 이동**한다(`section.appendChild(componentNode)`). 사용자가 준 그 컴포넌트 노드를 옮긴다 — 인스턴스가 아니라 **원본 이동**(기존 인스턴스는 안 깨진다). component set(변형 다수)이면 set 전체를 옮긴다.
+3. description 프레임도 섹션에 넣고 **컴포넌트=왼쪽 / description=오른쪽**으로 나란히 배치한다. (예: 컴포넌트 `(100,100)`, description `(컴포넌트 오른쪽 + 여백, 100)` — 컴포넌트 폭에 따라 간격 조정) 섹션 크기는 내용에 맞춘다.
+4. 섹션은 배치 위치(Component Library 페이지)에 둔다.
+- 참고 구조: `Section '🚀 Add Button' { [원본 컴포넌트], [Description 프레임] }` (기준 예시 node `1852:9033`).
+
 ### 컴포넌트 참조 헤더 (맨 위 — 컴포넌트↔description 앵커)
 - 새 description을 만들면 프레임 **맨 위**에 `🧩 <컴포넌트명>` 텍스트를 넣고, 사용자가 준 **컴포넌트 node id**로 `setRangeHyperlink(start, end, { type: 'NODE', value: '<componentNodeId>' })`를 건다.
 - 템플릿에 헤더 슬롯이 없으면 `figma.createText()`로 만들어(폰트 로드 후) 프레임의 **첫 자식**으로 `insertChild(0, headerText)` 한다. 스타일은 섹션 제목 톤에 맞춘다.
