@@ -21,6 +21,7 @@
 | **admin-hub** | 오늘의집 사내 어드민 디자인 자동화 통합 진입점 — 도메인(커머스/광고/물류) 선택 시 sub-skill 위임 + 호스팅 자동화(Vercel/사내 정적 서버) | `/admin-hub` / `어드민 디자인` / `어드민 페이지 만들어줘` | Lana | ✅ 운영 중 |
 | **prd-to-prototype** | PRD→스펙독→프로토타입 4단계 워크플로 — PRD 탭 읽기→스펙독 정규화→사용자 확인→Next.js 페이지 구현. admin-prototype 스캐폴드 레포 내에서 동작 | `/prd-to-prototype` / `프로토타입 만들어줘` / `이 PRD로 페이지` | Lana | ✅ 운영 중 |
 | **component-description** | 컴포넌트 description(명세서) 자동 작성 — Figma 노드→5섹션(Theme·Context·Anatomy·Guidelines·Behavior). ODS 자동 참조, 피그마 직접 반영(텍스트 교체·항목 추가) | `/cd` / `컴포넌트 설명 써줘` / `description 작성` | Gina | ✅ 운영 중 |
+| **lofi-wire** | Lo-fi 와이어프레임 HTML 생성 — 구조 합의·옵션 비교·개념 시각화·핸드오프 전 검토용. 그레이스케일 톤 + 공용 컴포넌트 라이브러리 자동 적용, 마스킹 후 개인 GitHub Pages로 공유 가능 | `와이어 만들어줘` / `lofi` / `구조 보여줘` / `옵션 비교` | Deeer | ✅ 운영 중 |
 
 ---
 
@@ -43,6 +44,7 @@
 - jira-qa-bug: ~/claude-skills/skills/jira-qa-bug/SKILL.md
 - admin-hub: ~/claude-skills/skills/admin-hub/SKILL.md
 - component-description: ~/claude-skills/skills/component-description/SKILL.md
+- lofi-wire: ~/claude-skills/skills/lofi-wire/SKILL.md
 ```
 
 > **funnel-check 사용 시:** `log-explore`, `log-query`, `log-spec` 3개를 같이 등록해야 합니다 (의존 인프라). 메인 README 표 하단의 의존 표시 참고.
