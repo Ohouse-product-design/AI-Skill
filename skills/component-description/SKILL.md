@@ -170,6 +170,7 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 피그마에 반영할 때, **컴포넌트와 그 description을 하나의 Section으로 묶는다.**
 1. `figma.createSection()`으로 섹션 생성 → 이름 = **컴포넌트명**(이모지 포함, 예: `🚀 Add Button`).
 2. **원본 컴포넌트를 섹션으로 이동**한다(`section.appendChild(componentNode)`). 사용자가 준 그 컴포넌트 노드를 옮긴다 — 인스턴스가 아니라 **원본 이동**(기존 인스턴스는 안 깨진다). component set(변형 다수)이면 set 전체를 옮긴다.
+   - 🚫 **`componentNode.clone()` 절대 금지.** COMPONENT/COMPONENT_SET를 clone하면 **마스터 중복본**이 생겨 라이브러리가 오염된다. 반드시 `appendChild`로 **원본 노드를 이동**시킨다(새 node id가 아니라 원래 node id가 섹션 안에 있어야 정상). description 프레임만 템플릿에서 clone하고, 컴포넌트는 clone하지 않는다.
 3. description 프레임도 섹션에 넣고 **컴포넌트=왼쪽 / description=오른쪽, 둘 다 상단 정렬**로 배치한다.
    - ⚠️ **섹션 자식 좌표는 프레임처럼 "섹션 기준 상대좌표"다** (절대좌표 아님). `s.x + 100` 처럼 절대값으로 넣지 말 것 — **첫 섹션(x=0)만 맞고 나머지는 콘텐츠가 밖으로 밀려난다.** 반드시 상대값으로:
      - 컴포넌트: `comp.x = 100; comp.y = 100`
