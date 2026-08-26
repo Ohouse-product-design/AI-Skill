@@ -1,0 +1,47 @@
+---
+description: "LifeService UXUI 지식 위키(45페이지)를 LLM Wiki 패턴으로 유지·조회하는 스킬. \"이 문서 위키에 넣어줘\", \"위키 린트 돌려줘\", \"정본이랑 캐시 어긋난 거 있어?\", \"이 답 위키에 남겨줘\", \"위키에서 찾아줘\" 등의 표현에 반응. 새 소스를 위키에 녹이고(ingest), 위키 기반으로 답하고 좋은 답을 되적재하고(query), 모순·stale·고아·드리프트를 검진한다(lint). 지면·컴포넌트를 새로 만드는 요청은 이 스킬이 아니다."
+alwaysApply: false
+---
+
+
+# anti-slop — LifeService UXUI 위키 유지·조회
+
+지식을 **질의 때마다 다시 캐내지 않고** 한 번 녹여 계속 최신으로 유지한다.
+근거: [LLM Wiki 패턴](raw/llm-wiki-pattern.md) (karpathy).
+
+> **이 스킬은 위키를 관리한다. 지면을 만들지 않는다.**
+> 신규 화면·섹션·컴포넌트 생성은 `lifeservice-uxui` 다. 경계가 애매하면 — **산출물이 HTML/프로토타입이면 lifeservice-uxui, 마크다운 페이지면 여기.**
+
+
+## 서브커맨드
+
+| 호출 | 동작 | 로드 |
+|---|---|---|
+| `ingest <소스>` | 새 소스를 읽고 위키에 녹인다 | [`references/ingest.md`](references/ingest.md) |
+| `query <질문>` | 위키로 답하고, 남길 값이 있으면 적재한다 | [`references/query.md`](references/query.md) |
+| `lint` | 건강검진 7종 | [`references/lint.md`](references/lint.md) |
+| *(verb 불명)* | 질문이면 `query`, 파일·URL 을 들고 왔으면 `ingest` | — |
+
+페이지 규약·log 표기·값 중복 판정은 [`references/conventions.md`](references/conventions.md).
+
+
+## 결함 분류 — 무엇을 자동으로 고칠 수 있나
+
+`lifeservice-uxui` 의 게이트 루프와 같은 3분류를 쓴다.
+
+| 분류 | 정의 | 처리 | 이 도메인의 예 |
+|---|---|---|---|
+| 🔧 **AUTO** | 규칙이 **고칠 값을 특정**한다 | 즉시 수정 → 재측정 | 캐시 헤더 날짜 갱신 · 끊긴 링크 경로 · index 미등재 추가 |
+| 💬 **PROPOSE** | 위반은 확정이나 **무엇을 고칠지는 선택** | 안만 내고 미결 대장 | 모순된 수치 중 어느 것을 정본으로 · 고아 페이지를 어디에 링크할지 |
+| 🙋 **HUMAN** | 🔴 **대리 판정 금지** | 미결 대장에만 | 정본(Notion) 편집 · 열린 결정 · 역방향 드리프트 등재 |
+
+🔴 **루프가 자기 자신을 승인하지 않는다.** 미결이 0건이 아닌 결과를 "건강함" 으로 쓰지 않고 **"미결 N건"** 을 명시한다.
+
+## 현재 상태 (2026-08-20)
+
+| | |
+|---|---|
+| 페이지 | 50 (`wiki/` + `raw/` + `CLAUDE.md`) |
+| 자동 린트 | 🔴 1 (재료 수 4벌) · 🟡 3 (stale) |
+| 미결 | 7건 — `wiki/synthesis.md` § 열린 것 |
+
