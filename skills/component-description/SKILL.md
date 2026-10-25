@@ -98,6 +98,7 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 ### 🧩 Component  *(맨 위, 항상)*
 - description **맨 위**에 **이 명세가 어느 컴포넌트에 대한 것인지** 컴포넌트명을 표기하고, 사용자가 준 **컴포넌트 노드로 하이퍼링크**를 건다.
 - 형태: `🧩 <컴포넌트명>` (예: `🧩 [SpaceAI] Add Button`). **node id 기반 링크**라 이름이 같아도 안 깨진다.
+- ⚠️ **컴포넌트명은 피그마에 명명된 이름을 그대로 쓴다.** 임의로 짧게 바꾸거나 새로 지어내지 않는다(예: `Bottom Sheet_Tab_Depth1_Tab Button`을 `Tab Button`으로 줄이지 말 것). 섹션 이름(`🚀 <컴포넌트명>`)·`참조:` 텍스트도 동일하게 실제 이름을 쓴다. (사용자가 별칭을 지정하면 그걸 우선)
 - 이 헤더가 **컴포넌트 ↔ description 연결점**이 되어, 나중에 수정할 때 서로 오갈 수 있다.
 - 컴포넌트 node id를 모르면(노드 링크가 없으면) 텍스트만 둔다.
 
@@ -128,6 +129,13 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 ### 👆 Behavior
 - 인터랙션/동작을 `동작명(키워드) + 설명`으로 정리.
 - 실제 동작은 이미지로 알 수 없으므로, 모르면 `[확인 필요]`.
+- **역할 분리**: 컴포넌트가 컨테이너(다른 컴포넌트를 담는 상위)와 개별 요소(하위)로 나뉘면, 각 명세는 **자기 역할까지만** 다룬다. 예) 탭 컨테이너 = 개수 제한·선택 유일성·콘텐츠 전환 / 개별 탭 버튼 = 자기 선택·미선택·레이블·Hover. 상위 책임을 하위 명세에 섞지 않는다.
+
+### 🎞 Motion  *(애니메이션이 정의됐을 때만)*
+- 컴포넌트의 애니메이션/전환을 `동작명 + 모션 설명(대상·방식·시간·이징)`으로 정리한다.
+- **먼저 `get_motion_context`로 피그마에 정의된 프로토타입 트랜지션/키프레임이 있는지 확인**한다. 있으면 그 값을 반영하고, 없으면(`motionSummary: null`) 의도한 모션을 스펙으로 적는다(값은 예시로 명시, 확정 아니면 `[확인 필요]`).
+- 예) `탭 전환` — 선택 pill이 새 위치로 슬라이드 (Smart Animate, ~200ms, ease-out) + 레이블 색상 크로스페이드.
+- **정의된/의도된 모션이 없으면 이 섹션을 생략**한다(빈 섹션 만들지 않기). 표기 방식(별도 🎞 Motion 섹션)은 사용자 지정(2026-07-31).
 
 ## 작성 원칙
 - **알 수 있는 것 vs 추측**을 구분한다.
@@ -148,7 +156,8 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 - 종결어미는 "~합니다" 체로 통일.
 - 선택 상태 용어: **Selected / Unselected**.
 - 선택 표시 배경은 "**pill 형태의 배경**"으로 표현.
-- 섹션 칩 이모지: 🎨 Theme · 📁 Context · 🦴 Anatomy · ✏️ Guidelines · 👆 Behavior.
+- 섹션 칩 이모지: 🎨 Theme · 📁 Context · 🦴 Anatomy · ✏️ Guidelines · 👆 Behavior · 🎞 Motion.
+- 피그마 반영 시 섹션 칩(🌀 Square Badge 인스턴스)의 라벨은 텍스트 속성(`Label#...`)이라 `inst.setProperties({[labelKey]: "🎞 Motion"})`로 바꾼다(텍스트 레이어 `.characters` 직접 수정은 안 먹는다). 새 섹션은 기존 섹션 프레임을 clone 후 칩 라벨·항목만 교체.
 
 ### Guidelines 작성
 - 각 규칙 = **명령형 제목 + 이유 본문 + Do 한 줄 + Don't 한 줄**.
@@ -170,6 +179,7 @@ bucketplace-product-design 플러그인의 `ods-prototype`(+`ods-hermes`) MCP가
 피그마에 반영할 때, **컴포넌트와 그 description을 하나의 Section으로 묶는다.**
 1. `figma.createSection()`으로 섹션 생성 → 이름 = **컴포넌트명**(이모지 포함, 예: `🚀 Add Button`).
 2. **원본 컴포넌트를 섹션으로 이동**한다(`section.appendChild(componentNode)`). 사용자가 준 그 컴포넌트 노드를 옮긴다 — 인스턴스가 아니라 **원본 이동**(기존 인스턴스는 안 깨진다). component set(변형 다수)이면 set 전체를 옮긴다.
+   - 🚫 **`componentNode.clone()` 절대 금지.** COMPONENT/COMPONENT_SET를 clone하면 **마스터 중복본**이 생겨 라이브러리가 오염된다. 반드시 `appendChild`로 **원본 노드를 이동**시킨다(새 node id가 아니라 원래 node id가 섹션 안에 있어야 정상). description 프레임만 템플릿에서 clone하고, 컴포넌트는 clone하지 않는다.
 3. description 프레임도 섹션에 넣고 **컴포넌트=왼쪽 / description=오른쪽, 둘 다 상단 정렬**로 배치한다.
    - ⚠️ **섹션 자식 좌표는 프레임처럼 "섹션 기준 상대좌표"다** (절대좌표 아님). `s.x + 100` 처럼 절대값으로 넣지 말 것 — **첫 섹션(x=0)만 맞고 나머지는 콘텐츠가 밖으로 밀려난다.** 반드시 상대값으로:
      - 컴포넌트: `comp.x = 100; comp.y = 100`
